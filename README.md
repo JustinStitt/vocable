@@ -1,4 +1,4 @@
-# cpsc362-group-3
+# Vocable
 The cool group!
 
 It looks like wordle, but it isnt
