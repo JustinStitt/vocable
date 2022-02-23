@@ -1,4 +1,8 @@
 # Vocable
-The cool group!
+## See CONTRIBUTING.md for info on how to contribute
 
-It looks like wordle, but it isnt
+A full-stack Wordle clone
+
+
+### Resources:
+[Group 3 - Sheet](https://docs.google.com/spreadsheets/d/1c0K8mrBL2xnjI94rZsNEwamCKWtTdhqd0BRyKZXJGMY/edit)
