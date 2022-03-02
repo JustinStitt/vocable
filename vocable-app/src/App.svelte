@@ -1,9 +1,20 @@
 <script>
 	export let name;
+
+	let guess = '';
+
+	let correct_guess = "wordle"
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
+	<input bind:value={guess} placeholder='Enter Guess'/>
+	<h3>Guess: {guess}</h3>
+	{#if guess == correct_guess}
+	<h4 style="color: green">
+		Your guess is correct!
+	</h4>
+	{/if}
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 
