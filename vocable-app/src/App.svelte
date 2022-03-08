@@ -1,9 +1,12 @@
 <script>
 	export let name;
+	import * as file from './5words.json';
 
 	let guess = '';
+	let words = file.default
+	let random = Math.floor(Math.random() * words.length)
 
-	let correct_guess = "wordle"
+	let correct_guess = words[random].toLowerCase()
 </script>
 
 <main>
@@ -15,6 +18,9 @@
 		Your guess is correct!
 	</h4>
 	{/if}
+
+	<p>Random word: {words[random].toUpperCase()}</p>
+
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 
