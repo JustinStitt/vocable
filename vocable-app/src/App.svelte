@@ -1,10 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import * as file from './5words.json';
-	import Block from './Components/Block.svelte'
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
-
+	let DEBUG = true;
 
 	let guess = '';
 	let guesses = [];
@@ -74,8 +73,10 @@
 	{#if win}
 		WINNER!
 	{/if}
+	{#if DEBUG}
 	<p>Random word: {words[random].toUpperCase()}</p>
 	<button on:click={getNewRandomWord}>Get New Word</button>
+	{/if}
 	<!-- <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p> -->
 </main>
 
