@@ -2,10 +2,11 @@ html, body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	background-color: #131516;
 }
 
 body {
-	color: rgb(51, 51, 51);
+	color: rgb(194, 228, 255);
 	margin: 0;
 	box-sizing: border-box;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
