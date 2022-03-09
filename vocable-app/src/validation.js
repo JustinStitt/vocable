@@ -4,7 +4,7 @@ function validation(guess, correct) {
 
     let counts = {}
     for (let i = 0; i < correct.length; ++i) {
-        let letter = correct[i];
+        let letter = correct[i].toLowerCase();
         if (counts[letter]) counts[letter]++;
         else counts[letter] = 1;
     }

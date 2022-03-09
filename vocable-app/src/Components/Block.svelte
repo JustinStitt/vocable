@@ -16,7 +16,6 @@ export let state = 0;
 div {
     width: 45px;
     height: 45px;
-    border: 2px solid rgb(137, 130, 146);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,12 +23,13 @@ div {
     border-radius: 3px;
     background-color: #434a5d21;
     max-width: 75px;
-    min-width: 20px;
-    border: 1px solid #333;
+    min-width: 50px;
+    border: 1px solid rgb(178, 181, 184);
     margin-left: 2px;
 }
 
 div h3 {
+    color: aliceblue;
     font-size: 35px;
     font-weight: 400;
     text-align: center;
@@ -41,6 +41,6 @@ div h3 {
 }
 
 .incorrect {
-    background-color: rgb(235, 195, 103);
+    background-color: rgb(167, 134, 57);
 }
 </style>
