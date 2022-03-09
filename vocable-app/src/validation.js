@@ -1,6 +1,14 @@
 function validation(guess, correct) {
     guess = guess.toLowerCase();
     correct = correct.toLowerCase();
+
+    let counts = {}
+    for (let i = 0; i < correct.length; ++i) {
+        let letter = correct[i];
+        if (counts[letter]) counts[letter]++;
+        else counts[letter] = 1;
+    }
+
     /*
         states:
         0: letter not in correct string
@@ -18,12 +26,23 @@ function validation(guess, correct) {
     if (guess == correct) result.win = true;
 
     let states = Array(guess.length).fill(NOT_FOUND)
+
+    for(let i = 0; i < guess.length; ++i) {
+        let letter = guess[i];
+        if (guess[i] == correct[i]) {
+            states[i] = CORRECT_SPOT;
+            counts[letter]--;
+        }
+    }
+
     for(let i = 0; i < guess.length; ++i) {
         let letter = guess[i];
         let f_index = correct.search(letter);
         if (f_index == -1) continue;
-        if (guess[i] == correct[i]) states[i] = CORRECT_SPOT;
-        else if (f_index != i) states[i] = INCORRECT_SPOT;
+        else if (f_index != i && counts[letter] > 0) {
+            counts[letter]--;
+            states[i] = INCORRECT_SPOT;
+        }
     }
 
     result.letter_states = [...states] // create copy of states just in case of pointer magic
