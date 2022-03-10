@@ -5,6 +5,7 @@
 	import validation from './validation.js'
 	import Keyboard from './Components/Keyboard.svelte'
 
+	let interactive_debug = 0;
 	let DEBUG = false;
 	let guess = '';
 	let guesses = [];
@@ -23,6 +24,13 @@
 	} 
 
 	const makeGuess = () => {
+		if (guess == '') {
+			interactive_debug += 1;
+			if (interactive_debug >= 3) {
+				DEBUG = !DEBUG;
+				interactive_debug = 0;
+			}
+		}
 		if (current_guess > num_guesses - 1) return
 		if (guess.length != guess_length) return
 		guesses[current_guess].guess = guess
@@ -133,9 +141,8 @@
 		text-align: center;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-items: center;
 		max-height: 100%; /* no scroll */
+		height: 100%;
 	}
 
 	button {
@@ -144,11 +151,15 @@
 		border: 1px solid #333;
 		margin-top: 10px;
 		margin-bottom: -2px;
+		width: 100px;
+		align-self: center;
 	}
 
 	.top {
 		width: 100%;
 		padding-bottom: 10px;
+		min-height: 50px;
+		margin-top: 5px;
 	}
 
 	h2 {
@@ -166,15 +177,14 @@
 	}
 
 	.debug {
+		position: absolute;
+		transform: translateY(100px);
 		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
+		flex-direction: column;
+		justify-items: flex-end;
 	}
 
 	.debug p{
-		width: 100%;
-		height: 100%;
 		background-color: rgba(51, 51, 51, 0.376);
 		margin-left: 10px;
 		margin-right: 10px;
@@ -196,13 +206,22 @@
 	.debug p:hover {
 		color: aliceblue;
 	}
-	
+
 	.entries {
-		justify-content: center;
 		align-items: center;
 		width: 100%;
-		height: 100%;
+		height: 50%;
 		display: flex;
 		flex-direction: column;
+		min-height: 120px;
+
 	}
+
+
+	@media only screen and (max-height: 550px) {
+        .entries {
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+    }
 </style>

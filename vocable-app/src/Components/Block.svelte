@@ -22,10 +22,11 @@ div {
     justify-content: center;
     border-radius: 3px;
     background-color: #434a5d21;
-    max-width: 75px;
+    max-width: 50px;
     min-width: 50px;
     border: 1px solid rgb(178, 181, 184);
     margin-left: 2px;
+
 }
 
 div h3 {
@@ -34,6 +35,7 @@ div h3 {
     font-weight: 400;
     text-align: center;
     padding-bottom: 5px;
+
 }
 
 .correct {
