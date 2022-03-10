@@ -60,3 +60,11 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+button:hover {
+	transform: scale(1.05);
+}
+
+button:active {
+	transform: scale(1.1);
+}
