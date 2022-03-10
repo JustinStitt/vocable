@@ -5,7 +5,8 @@
 	import validation from './validation.js'
 	import Keyboard from './Components/Keyboard.svelte'
 
-	let DEBUG = true;
+	let interactive_debug = 0;
+	let DEBUG = false;
 	let guess = '';
 	let guesses = [];
 	let words = file.default
@@ -23,6 +24,13 @@
 	} 
 
 	const makeGuess = () => {
+		if (guess == '') {
+			interactive_debug += 1;
+			if (interactive_debug >= 3) {
+				DEBUG = !DEBUG;
+				interactive_debug = 0;
+			}
+		}
 		if (current_guess > num_guesses - 1) return
 		if (guess.length != guess_length) return
 		guesses[current_guess].guess = guess
