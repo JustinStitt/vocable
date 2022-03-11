@@ -101,6 +101,14 @@
 
 	/* runs once when component mounts (inserted into DOM) */
 	onMount(() => {getNewRandomWord(); initialGuessSetup(); mount = true;})
+
+	const newGame = () => {
+		initialGuessSetup();
+		getNewRandomWord();
+		current_guess = 0;
+		oskb_states = {};
+		win = false;
+	}
 </script>
 
 <main>
@@ -124,11 +132,13 @@
 
 	{#if win}
 	WINNER!
+	<button on:click={newGame}>Play again?</button>
 	{/if}
 	{#if DEBUG}
 		<div class='debug'>
 			<p>Random word: {words[random].toUpperCase()}</p>
 			<button on:click={getNewRandomWord}>Get New Word</button>
+			<button on:click={newGame}>reset game</button>
 		</div>
 	{/if}
 	<button class='submit' on:click={makeGuess}>Make Guess</button>
