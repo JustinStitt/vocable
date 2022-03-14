@@ -1,11 +1,24 @@
 <script>
+import { onMount } from 'svelte';
+
 export let letter = '0'
-export let state = 0;
+export let state = -2;
+export let anim_delay = 0.0;
+
+let changed = false;
+
+const isChanged = (_) => {
+    if (state == 5) return;
+    changed = true;
+    console.log('changed', state)
+}
+
+$: isChanged(state);
 
 </script>
 
 <!-- start HTML -->
-<div class:correct={state==2} class:incorrect={state==1}>
+<div class:doflip={changed} class:correct={state==2} class:incorrect={state==1} style={`animation-delay: ${anim_delay}s`}>
     <h3>
         {letter}
     </h3>
@@ -44,5 +57,19 @@ div h3 {
 
 .incorrect {
     background-color: rgb(167, 134, 57);
+}
+
+.doflip {
+    animation: flip 1s;
+    transition-timing-function: cubic-bezier();
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0) scale(1, 1);
+    }
+    100% {
+        transform: rotateX(180deg) scale(1, -1);
+    }
 }
 </style>

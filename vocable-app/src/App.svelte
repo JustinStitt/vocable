@@ -47,6 +47,7 @@
 		win = result.win;
 		guess = '';
 		current_guess += 1
+		console.log(guesses);
 	}
 
 	const initialGuessSetup = () => {
@@ -54,7 +55,7 @@
 		for (let i = 0; i < guesses.length; i++) {
 			let def = {
 			guess: Array(guess_length+1).join(' '),
-			states: Array(guess_length).fill(0), // default state is 0
+			states: Array(guess_length).fill(5), // default state is 5
 			}
 			guesses[i] = def;
 		}
