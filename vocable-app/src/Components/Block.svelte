@@ -10,7 +10,6 @@ let changed = false;
 const isChanged = (_) => {
     if (state == 5) return;
     changed = true;
-    console.log('changed', state)
 }
 
 $: isChanged(state);
