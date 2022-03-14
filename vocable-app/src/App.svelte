@@ -55,7 +55,7 @@
 		for (let i = 0; i < guesses.length; i++) {
 			let def = {
 			guess: Array(guess_length+1).join(' '),
-			states: Array(guess_length).fill(5), // default state is 5
+			states: Array(guess_length).fill(-2), // default state is -2
 			}
 			guesses[i] = def;
 		}

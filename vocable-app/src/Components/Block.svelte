@@ -5,11 +5,19 @@ export let letter = '0'
 export let state = -2;
 export let anim_delay = 0.0;
 
+let shown_state = -3;
+
 let changed = false;
 
 const isChanged = (_) => {
-    if (state == 5) return;
+    if (state == -2 && shown_state == -3) return;
     changed = true;
+    if (state < shown_state){ shown_state = state; changed = false;}
+    else setTimeout(setShowState, anim_delay*1000 + 250);
+}
+
+const setShowState = () => {
+    shown_state = state;
 }
 
 $: isChanged(state);
@@ -17,7 +25,7 @@ $: isChanged(state);
 </script>
 
 <!-- start HTML -->
-<div class:doflip={changed} class:correct={state==2} class:incorrect={state==1} style={`animation-delay: ${anim_delay}s`}>
+<div class:doflip={changed} class:correct={shown_state==2} class:incorrect={shown_state==1} style={`animation-delay: ${anim_delay}s`}>
     <h3>
         {letter}
     </h3>
