@@ -1,5 +1,5 @@
 # Vocable
-## See CONTRIBUTING.md for info on how to contribute
+### See CONTRIBUTING.md for info on how to contribute
 
 A full-stack Wordle clone
 
