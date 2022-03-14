@@ -39,7 +39,7 @@ function validation(guess, correct) {
         let letter = guess[i];
         let f_index = correct.search(letter);
         if (f_index == -1) continue;
-        else if (f_index != i && counts[letter] > 0) {
+        else if (f_index != i && counts[letter] > 0 && states[i] != CORRECT_SPOT) {
             counts[letter]--;
             states[i] = INCORRECT_SPOT;
         }
