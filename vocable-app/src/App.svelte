@@ -110,6 +110,11 @@
 		oskb_states = {};
 		win = false;
 	}
+
+	function newNumberGame(letterNum) {
+		guess_length = letterNum;
+		newGame();
+	}
 </script>
 
 <main>
@@ -144,6 +149,11 @@
 	{/if}
 	<button class='submit' on:click={makeGuess}>Make Guess</button>
 	<Keyboard on:oskb_click={handleOSKB} on:oskb_backspace={handleOSKB_backspace} states={oskb_states}/>
+	<div>
+		<button on:click={() => newNumberGame(4)}>4 Letters</button>
+		<button on:click={() => newNumberGame(5)}>5 Letters</button>
+		<button on:click={() => newNumberGame(6)}>6 Letters</button>
+	</div>
 	<!-- <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p> -->
 </main>
 
