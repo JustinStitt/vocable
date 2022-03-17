@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import * as file from './5words.json';
+	// import * as file from '../words/5words.json';
+	import * as all_words from '../words/words.json';
+
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
 	import Keyboard from './Components/Keyboard.svelte'
@@ -9,7 +11,7 @@
 	let DEBUG = false;
 	let guess = '';
 	let guesses = [];
-	let words = file.default
+	let words = all_words.default
 	let random = 0
 	
 	let guess_length = 5;
@@ -18,9 +20,9 @@
 	let win = false;
 	let mount = false;
 	let oskb_states = {};
-	
+
 	const getNewRandomWord = () => {
-		random = Math.floor(Math.random() * words.length)
+		random = Math.floor(Math.random() * words[String(guess_length)].length)
 	} 
 
 	const makeGuess = () => {
@@ -74,7 +76,7 @@
 		guess = guess.slice(0, guess.length - 1)
 	}
 
-	$: correct_word = words[random].toLowerCase()
+	$: correct_word = words[String(guess_length)][random].toLowerCase();
 
 	$: {
 		if (mount && current_guess < num_guesses) {
@@ -137,7 +139,7 @@
 	{/if}
 	{#if DEBUG}
 		<div class='debug'>
-			<p>Random word: {words[random].toUpperCase()}</p>
+			<p>Correct Word: {correct_word}</p>
 			<button on:click={getNewRandomWord}>Get New Word</button>
 			<button on:click={newGame}>reset game</button>
 		</div>
