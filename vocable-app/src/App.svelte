@@ -120,6 +120,7 @@
 
 	function newNumberGame(letterNum) {
 		show_settings = false;
+		if (guess_length == letterNum) return;
 		guess_length = letterNum;
 		guess = '';
 		newGame();
