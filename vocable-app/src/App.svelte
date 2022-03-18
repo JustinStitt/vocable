@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { fly, fade } from 'svelte/transition';
 	// import * as file from '../words/5words.json';
 	import * as all_words from '../words/words.json';
 
@@ -118,12 +119,13 @@
 	$: guess = win ? '' : guess
 
 	function newNumberGame(letterNum) {
+		show_settings = false;
 		guess_length = letterNum;
 		guess = '';
 		newGame();
 	}
 </script>
-<div class='all'>
+<div class='all' class:do-blur={show_settings}>
 
 	<div class='navbar'>
 		<div class='menu-left'></div>
@@ -160,7 +162,6 @@
 				<button class='submit' on:click={makeGuess}>Make Guess</button>
 				<Keyboard on:oskb_click={handleOSKB} on:oskb_backspace={handleOSKB_backspace} states={oskb_states}/>
 				
-				<!-- <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p> -->
 			</div> <!-- end game div -->
 			{#if DEBUG}
 			<div class='debug'>
@@ -169,24 +170,32 @@
 				<button on:click={newGame}>reset game</button>
 			</div>
 			{/if}
-			{#if show_settings}
-			<div class='difficulty'>
-				<button on:click={() => newNumberGame(4)}>4 Letters</button>
-				<button on:click={() => newNumberGame(5)}>5 Letters</button>
-				<button on:click={() => newNumberGame(6)}>6 Letters</button>
-			</div>
-			{/if}
-	</main>
-	
-</div>
+		</main>
 		
-	<style>
+	</div>
+	{#if show_settings}
+	<div class='difficulty' in:fade out:fade>
+		<h3>Letters: </h3>
+		<button class:in-use={guess_length==4} class='diff-button' on:click={() => newNumberGame(4)}>4</button>
+		<button class:in-use={guess_length==5} class='diff-button' on:click={() => newNumberGame(5)}>5</button>
+		<button class:in-use={guess_length==6} class='diff-button' on:click={() => newNumberGame(6)}>6</button>
+	</div>
+	{/if}
+		
+<style>
 	main {
 		text-align: center;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		height: 100%;
+	}
+
+	.diff-button {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		border: 1px solid aliceblue;
 	}
 
 	.all {
@@ -328,11 +337,29 @@ h2 {
 }
 
 .difficulty {
+	left: 50%;
+	transform: translateX(-50%);
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	flex-direction: row;
+	justify-content: space-around;
 	align-items: center;
-	border: 1px solid red;
-	justify-self: flex-end;
+	position: absolute;
+  top: 15%;
+  text-align: center;
+  width: 20%;
+  background-color: rgba(51, 51, 51, 0.819);
+  border: 1px solid aliceblue;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  line-height: 100%;
 }
+
+.do-blur {
+	filter: blur(4px);
+}
+
+.in-use {
+	background-color: rgb(38, 207, 151);
+}
+
 </style>
