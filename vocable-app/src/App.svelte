@@ -14,7 +14,6 @@
 	let guesses = [];
 	let words = all_words.default
 	let random = 0
-	
 	let guess_length = 5;
 	let num_guesses = 6;
 	let current_guess = 0;
@@ -22,6 +21,7 @@
 	let mount = false;
 	let oskb_states = {};
 	let show_settings = false;
+	let show_celebration = false;
 
 	const getNewRandomWord = () => {
 		random = Math.floor(Math.random() * words[String(guess_length)].length)
@@ -51,6 +51,7 @@
 		win = result.win;
 		guess = '';
 		current_guess += 1
+		if (win && current_guess == 1) show_celebration = true;
 	}
 
 	const initialGuessSetup = () => {
@@ -114,6 +115,7 @@
 		current_guess = 0;
 		oskb_states = {};
 		win = false;
+		show_celebration = false;
 	}
 
 	$: guess = win ? '' : guess
@@ -141,7 +143,7 @@
 	<main>
 		<div class='game'>
 			
-			<div class='entries'>
+			<div class='entries' class:celebration={show_celebration}>
 				{#each guesses as o}
 				<Entry guess={o.guess} states={o.states}/>
 				{/each}
@@ -157,7 +159,7 @@
 				/> -->
 				
 				{#if win}
-				WINNER!
+				WINNER! {show_celebration ? ' IN ONE GUESS!' : ''}
 				<button on:click={newGame}>Play again?</button>
 				{/if}
 				<button class='submit' on:click={makeGuess}>Make Guess</button>
@@ -361,6 +363,19 @@ h2 {
 
 .in-use {
 	background-color: rgb(38, 207, 151);
+}
+
+.celebration {
+	animation: fast-spin 1.5s linear infinite;
+}
+
+@keyframes fast-spin {
+	0% {
+		transform: rotateY(0);
+	}
+	100% {
+		transform: rotateY(360deg);
+	}
 }
 
 </style>
