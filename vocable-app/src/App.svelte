@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import * as file from './5words.json';
+	// import * as file from '../words/5words.json';
+	import * as all_words from '../words/words.json';
+
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
 	import Keyboard from './Components/Keyboard.svelte'
@@ -9,7 +11,7 @@
 	let DEBUG = false;
 	let guess = '';
 	let guesses = [];
-	let words = file.default
+	let words = all_words.default
 	let random = 0
 	
 	let guess_length = 5;
@@ -18,9 +20,10 @@
 	let win = false;
 	let mount = false;
 	let oskb_states = {};
-	
+	let show_settings = false;
+
 	const getNewRandomWord = () => {
-		random = Math.floor(Math.random() * words.length)
+		random = Math.floor(Math.random() * words[String(guess_length)].length)
 	} 
 
 	const makeGuess = () => {
@@ -47,7 +50,6 @@
 		win = result.win;
 		guess = '';
 		current_guess += 1
-		console.log(guesses);
 	}
 
 	const initialGuessSetup = () => {
@@ -59,7 +61,6 @@
 			}
 			guesses[i] = def;
 		}
-		console.log(guesses)
 	}
 
 	// handle on-screen keyboard
@@ -74,7 +75,7 @@
 		guess = guess.slice(0, guess.length - 1)
 	}
 
-	$: correct_word = words[random].toLowerCase()
+	$: correct_word = words[String(guess_length)][random].toLowerCase();
 
 	$: {
 		if (mount && current_guess < num_guesses) {
@@ -86,7 +87,6 @@
 	document.onkeydown = (event) => {
 		let key = event.key.toLowerCase();
 		let keycode = event.keyCode;
-		console.log(event)
 		if (key == 'backspace') {
 			guess = guess.slice(0, guess.length - 1)
 			return;
@@ -103,6 +103,10 @@
 	/* runs once when component mounts (inserted into DOM) */
 	onMount(() => {getNewRandomWord(); initialGuessSetup(); mount = true;})
 
+	const toggleSettings = () => {
+		show_settings = !show_settings;
+	}
+
 	const newGame = () => {
 		initialGuessSetup();
 		getNewRandomWord();
@@ -111,138 +115,224 @@
 		win = false;
 	}
 
+	$: guess = win ? '' : guess
+
 	function newNumberGame(letterNum) {
 		guess_length = letterNum;
+		guess = '';
 		newGame();
 	}
 </script>
+<div class='all'>
 
-<main>
-	<div class='top'>
-		<h2>Vocable</h2>
-	</div>
-	<div class='entries'>
-		{#each guesses as o}
-			<Entry guess={o.guess} states={o.states}/>
-		{/each}
-	</div>
-
-	<!-- <input type="text"
-	 maxlength={guess_length} 
-	bind:value={guess} 
-	bind:this={input_box}
-	placeholder='Enter Guess'
-	autofocus
-	oninput="this.value = this.value.toUpperCase()"
-	/> -->
-
-	{#if win}
-	WINNER!
-	<button on:click={newGame}>Play again?</button>
-	{/if}
-	{#if DEBUG}
-		<div class='debug'>
-			<p>Random word: {words[random].toUpperCase()}</p>
-			<button on:click={getNewRandomWord}>Get New Word</button>
-			<button on:click={newGame}>reset game</button>
+	<div class='navbar'>
+		<div class='menu-left'></div>
+		<div class='title'>Vocable</div>
+		<div class='menu-right'>
+			<svg on:click={toggleSettings} class='settings' xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+				<path fill="aliceblue" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"></path>
+			</svg>
 		</div>
-	{/if}
-	<button class='submit' on:click={makeGuess}>Make Guess</button>
-	<Keyboard on:oskb_click={handleOSKB} on:oskb_backspace={handleOSKB_backspace} states={oskb_states}/>
-	<div>
-		<button on:click={() => newNumberGame(4)}>4 Letters</button>
-		<button on:click={() => newNumberGame(5)}>5 Letters</button>
-		<button on:click={() => newNumberGame(6)}>6 Letters</button>
 	</div>
-	<!-- <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p> -->
-</main>
 
-<style>
+	<main>
+		<div class='game'>
+			
+			<div class='entries'>
+				{#each guesses as o}
+				<Entry guess={o.guess} states={o.states}/>
+				{/each}
+			</div>
+			
+			<!-- <input type="text"
+				maxlength={guess_length} 
+				bind:value={guess} 
+				bind:this={input_box}
+				placeholder='Enter Guess'
+				autofocus
+				oninput="this.value = this.value.toUpperCase()"
+				/> -->
+				
+				{#if win}
+				WINNER!
+				<button on:click={newGame}>Play again?</button>
+				{/if}
+				<button class='submit' on:click={makeGuess}>Make Guess</button>
+				<Keyboard on:oskb_click={handleOSKB} on:oskb_backspace={handleOSKB_backspace} states={oskb_states}/>
+				
+				<!-- <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p> -->
+			</div> <!-- end game div -->
+			{#if DEBUG}
+			<div class='debug'>
+				<p>Correct Word: {correct_word}</p>
+				<button on:click={getNewRandomWord}>Get New Word</button>
+				<button on:click={newGame}>reset game</button>
+			</div>
+			{/if}
+			{#if show_settings}
+			<div class='difficulty'>
+				<button on:click={() => newNumberGame(4)}>4 Letters</button>
+				<button on:click={() => newNumberGame(5)}>5 Letters</button>
+				<button on:click={() => newNumberGame(6)}>6 Letters</button>
+			</div>
+			{/if}
+	</main>
+	
+</div>
+		
+	<style>
 	main {
 		text-align: center;
 		display: flex;
-		flex-direction: column;
-		max-height: 100%; /* no scroll */
+		flex-direction: row;
+		justify-content: center;
 		height: 100%;
 	}
 
-	button {
-		color: rgb(194, 228, 255);
-		background-color: rgb(112, 106, 106);
-		border: 1px solid #333;
-		margin-top: 10px;
-		margin-bottom: -2px;
-		width: 100px;
-		align-self: center;
+	.all {
+		max-height: 100%;
 	}
 
-	.top {
-		width: 100%;
-		padding-bottom: 10px;
-		min-height: 50px;
-		margin-top: 5px;
-	}
-
-	h2 {
-		text-transform: uppercase;
+	.title {
+		font-size: 40px;
 		font-weight: 500;
-		font-size: 30px;
-		margin: 0;
-		border-bottom: 2px solid grey;
+		line-height: 100%;
+		letter-spacing: 0.02em;
+		text-align: center;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-
-	.debug {
-		position: absolute;
-		transform: translateY(100px);
+	.navbar {
 		display: flex;
-		flex-direction: column;
-		justify-items: flex-end;
-	}
-
-	.debug p{
-		background-color: rgba(51, 51, 51, 0.376);
-		margin-left: 10px;
-		margin-right: 10px;
-		border: 1px solid red;
-		border-radius: 5px;
-		color: transparent;
-		text-overflow: hidden;
-	}
-
-	.debug p:before  {
-		content: "DEBUG";
-		color: aliceblue;
-	}
-	
-	.debug p:hover:before {
-		content: "";
-	}
-
-	.debug p:hover {
-		color: aliceblue;
-	}
-
-	.entries {
+		flex-direction: row;
+		justify-content: space-between;
 		align-items: center;
 		width: 100%;
-		height: 50%;
-		display: flex;
-		flex-direction: column;
-		min-height: 120px;
-
+		min-height: 20px;
+		color: aliceblue;
+		text-align: center;
+		border-bottom: 2px solid grey;
+		margin-bottom: 10px;
+		padding-bottom: 7px;
 	}
 
+	.menu-right {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		width: 50px;
+	}
 
-	@media only screen and (max-height: 550px) {
-        .entries {
-			overflow-y: scroll;
-			overflow-x: hidden;
+	.menu-left {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		background-color: blue;
+		width: 50px;
+	}
+
+	.game {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.settings {
+		justify-self: center;
+		padding: 0 10px;
+		margin-right: 10px;
+	}
+
+	.settings:hover {
+		animation: 0.5s linear 0s forwards alternate settingsRotate, 0.5s linear 3.5s forwards reverse settingsRotate;
+	}
+	
+	@keyframes settingsRotate {
+		0% {
+			transform: rotateZ(0);
 		}
-    }
+		100% {
+			transform: rotateZ(180deg);
+		}
+	}
+button {
+	color: rgb(194, 228, 255);
+	background-color: rgb(112, 106, 106);
+	border: 1px solid #333;
+	margin-top: 10px;
+	margin-bottom: -2px;
+	width: 100px;
+	align-self: center;
+}
+
+h2 {
+	text-transform: uppercase;
+	font-weight: 500;
+	font-size: 30px;
+	margin: 0;
+}
+
+@media (min-width: 640px) {
+	main {
+		max-width: none;
+	}
+}
+
+.debug {
+	position: absolute;
+	transform: translateX(-330px);
+	display: flex;
+	flex-direction: column;
+	justify-items: flex-end;
+}
+
+.debug p{
+	background-color: rgba(51, 51, 51, 0.376);
+	margin-left: 10px;
+	margin-right: 10px;
+	border: 1px solid red;
+	border-radius: 5px;
+	color: transparent;
+	text-overflow: hidden;
+}
+
+.debug p:before  {
+	content: "DEBUG";
+	color: aliceblue;
+}
+
+.debug p:hover:before {
+	content: "";
+}
+
+.debug p:hover {
+	color: aliceblue;
+}
+
+.entries {
+	align-items: center;
+	width: 100%;
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	min-height: 120px;
+
+}
+
+@media only screen and (max-height: 550px) {
+	.entries {
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
+}
+
+.difficulty {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid red;
+	justify-self: flex-end;
+}
 </style>

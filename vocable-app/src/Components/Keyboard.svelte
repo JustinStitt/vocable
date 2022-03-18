@@ -60,6 +60,6 @@
 
     .backspace {
         position: absolute;
-        transform: translateX(132px) translateY(32px);
+        transform: translateX(143.5px) translateY(34px);
     }
 </style>

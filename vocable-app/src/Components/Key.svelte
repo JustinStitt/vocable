@@ -26,8 +26,8 @@
 
 <style>
     button {
-        height: 30px;
-        width: 30px;
+        height: 33px;
+        width: 33px;
         background-color: rgb(112, 106, 106);
         border: 1px solid #333;
         text-align: center;
