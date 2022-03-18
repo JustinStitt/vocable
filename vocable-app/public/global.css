@@ -5,6 +5,10 @@ html, body {
 	background-color: #131516;
 }
 
+* {
+	touch-action: manipulation;
+}
+
 body {
 	color: rgb(194, 228, 255);
 	margin: 0;
