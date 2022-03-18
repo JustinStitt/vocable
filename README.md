@@ -3,6 +3,8 @@
 
 A full-stack Wordle clone
 
+[Try it Out! 🎮](https://vocable.vercel.app)
+
 
 ### Resources:
 [Group 3 - Sheet](https://docs.google.com/spreadsheets/d/1c0K8mrBL2xnjI94rZsNEwamCKWtTdhqd0BRyKZXJGMY/edit)
