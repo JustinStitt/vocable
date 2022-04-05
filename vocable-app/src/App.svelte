@@ -23,6 +23,16 @@
 	let show_settings = false;
 	let show_celebration = false;
 
+	function b_click(){
+		var audio = new Audio("click_button_short_sharp_73510.mp3");
+		audio.play();
+	}
+
+	function fanfare() {
+		var audio = new Audio("cartoon_success_fanfair.mp3");
+		audio.play();
+	}
+
 	const getNewRandomWord = () => {
 		random = Math.floor(Math.random() * words[String(guess_length)].length)
 	} 
@@ -49,6 +59,7 @@
 		}
 
 		win = result.win;
+		if(win) fanfare();
 		guess = '';
 		current_guess += 1
 		if (win && current_guess == 1) show_celebration = true;
@@ -87,6 +98,8 @@
 	}
 
 	document.onkeydown = (event) => {
+		b_click();
+
 		let key = event.key.toLowerCase();
 		let keycode = event.keyCode;
 		if (key == 'backspace') {
