@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import {b_click} from '../sounds'
     const dispatch = createEventDispatcher()
 
     export let key = 'a';
@@ -7,6 +8,7 @@
 
     // dispatch to on-screen keyboard dispatcher
     const action = () => {
+        b_click(); 
         dispatch('action', {
             'key': key,
         })

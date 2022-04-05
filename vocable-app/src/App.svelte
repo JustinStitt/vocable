@@ -3,6 +3,7 @@
 	import { fly, fade } from 'svelte/transition';
 	// import * as file from '../words/5words.json';
 	import * as all_words from '../words/words.json';
+	import {b_click, fanfare} from './sounds';
 
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
@@ -22,16 +23,6 @@
 	let oskb_states = {};
 	let show_settings = false;
 	let show_celebration = false;
-
-	function b_click(){
-		var audio = new Audio("click_button_short_sharp_73510.mp3");
-		audio.play();
-	}
-
-	function fanfare() {
-		var audio = new Audio("cartoon_success_fanfair.mp3");
-		audio.play();
-	}
 
 	const getNewRandomWord = () => {
 		random = Math.floor(Math.random() * words[String(guess_length)].length)
@@ -57,7 +48,7 @@
 			if (state < oskb_states[letter]) continue
 			oskb_states[letter] = state == 0 ? -1 : state;
 		}
-
+		b_click()
 		win = result.win;
 		if(win) fanfare();
 		guess = '';
