@@ -3,6 +3,7 @@
 	import { fly, fade } from 'svelte/transition';
 	// import * as file from '../words/5words.json';
 	import * as all_words from '../words/words.json';
+	import {b_click, fanfare} from './sounds';
 
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
@@ -47,8 +48,9 @@
 			if (state < oskb_states[letter]) continue
 			oskb_states[letter] = state == 0 ? -1 : state;
 		}
-
+		b_click()
 		win = result.win;
+		if(win) fanfare();
 		guess = '';
 		current_guess += 1
 		if (win && current_guess == 1) show_celebration = true;
@@ -87,6 +89,8 @@
 	}
 
 	document.onkeydown = (event) => {
+		b_click();
+
 		let key = event.key.toLowerCase();
 		let keycode = event.keyCode;
 		if (key == 'backspace') {
