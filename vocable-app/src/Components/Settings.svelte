@@ -1,12 +1,13 @@
 <script>
 	import { fly, fade } from 'svelte/transition';
+	import {b_click, fanfare} from '../sounds';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher()
 
     export let guess_length = 5;
 
     const change_guess = (gl) => {
-        //b_click(); 
+        b_click(); 
         dispatch('change_diff', {
             'guess_length': gl,
         })
