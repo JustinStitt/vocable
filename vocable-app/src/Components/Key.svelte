@@ -5,6 +5,7 @@
 
   export let key = "a";
   export let state = 0;
+  export let width = 1;
   // dispatch to on-screen keyboard dispatcher
   const action = () => {
     b_click();
@@ -21,6 +22,7 @@
   class:incorrect={state == 1}
   class:notatall={state == -1}
   disabled={state == 3}
+  style={`width: ${width * 3.5}em`}
 >
   <h3>
     {key}
@@ -30,15 +32,21 @@
 <!-- end HTML -->
 <style>
   button {
-    height: 33px;
-    width: 33px;
+    height: 3.5em; /* old 33 */
     background-color: rgb(112, 106, 106);
-    border: 1px solid #333;
+    border: 2px solid #333;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 3px;
+    -webkit-transition: 0.5s -webkit-filter linear;
+    -moz-transition: 0.5s -moz-filter linear;
+    -moz-transition: 0.5s filter linear;
+    -ms-transition: 0.5s -ms-filter linear;
+    -o-transition: 0.5s -o-filter linear;
+    transition: 0.5s filter linear, 0.5s -webkit-filter linear,
+      background-color 0.5s linear;
   }
 
   button:disabled {

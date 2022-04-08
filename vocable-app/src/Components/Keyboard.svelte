@@ -18,6 +18,12 @@
       key: event.detail.key,
     });
   };
+
+  const handleOSKB_enter = (event) => {
+    dispatch("oskb_enter", {
+      key: event.detail.key,
+    });
+  };
 </script>
 
 <!-- start HTML -->
@@ -35,6 +41,9 @@
   {/each}
   <span class="backspace">
     <Key on:action={handleOSKB_backspace} key="⬅" />
+  </span>
+  <span class="enter">
+    <Key on:action={handleOSKB_enter} key="enter" width={1.5} />
   </span>
 </div>
 
@@ -60,6 +69,12 @@
 
   .backspace {
     position: absolute;
-    transform: translateX(143.5px) translateY(34px);
+    transform: translateX(14.77em) translateY(3.6em);
+  }
+
+  .enter {
+    text-transform: lowercase;
+    position: absolute;
+    transform: translateX(-15.6em) translateY(3.6em);
   }
 </style>

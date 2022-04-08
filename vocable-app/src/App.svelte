@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { fly, fade } from "svelte/transition";
-  // import * as file from '../words/5words.json';
   import * as all_words from "../words/words.json";
   import { b_click, fanfare } from "./sounds";
 
@@ -91,16 +90,15 @@
   }
 
   document.onkeydown = (event) => {
-    b_click();
-
     let key = event.key.toLowerCase();
     let keycode = event.keyCode;
-    if (key == "backspace") {
-      guess = guess.slice(0, guess.length - 1);
-      return;
-    }
     if (key == "enter") {
       makeGuess();
+      return;
+    }
+    b_click();
+    if (key == "backspace") {
+      guess = guess.slice(0, guess.length - 1);
       return;
     }
     if (keycode >= 65 && keycode <= 90 && guess.length < guess_length) {
@@ -148,16 +146,18 @@
           <Entry guess={o.guess} states={o.states} />
         {/each}
       </div>
-      {#if win}
-        WINNER! {show_celebration ? " IN ONE GUESS!" : ""}
-        <button on:click={newGame}>Play again?</button>
-      {/if}
-      <button class="submit" on:click={makeGuess}>Make Guess</button>
-      <Keyboard
-        on:oskb_click={handleOSKB}
-        on:oskb_backspace={handleOSKB_backspace}
-        states={oskb_states}
-      />
+      <span class="below">
+        {#if win}
+          WINNER! {show_celebration ? " IN ONE GUESS!" : ""}
+          <button on:click={newGame}>Play again?</button>
+        {/if}
+        <Keyboard
+          on:oskb_click={handleOSKB}
+          on:oskb_backspace={handleOSKB_backspace}
+          on:oskb_enter={makeGuess}
+          states={oskb_states}
+        />
+      </span>
     </div>
     <!-- end game div -->
     {#if DEBUG}
@@ -189,13 +189,14 @@
   }
 
   .all {
-    max-height: 100%;
+    max-height: 90%;
+    height: 100%;
   }
 
   .game {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     height: 100%;
   }
@@ -256,18 +257,10 @@
 
   .entries {
     align-items: center;
-    width: 100%;
-    height: 50%;
     display: flex;
     flex-direction: column;
     min-height: 120px;
-  }
-
-  @media only screen and (max-height: 550px) {
-    .entries {
-      overflow-y: scroll;
-      overflow-x: hidden;
-    }
+    margin-top: auto;
   }
 
   .do-blur {
@@ -285,5 +278,9 @@
     100% {
       transform: rotateY(360deg);
     }
+  }
+
+  .below {
+    margin-top: auto;
   }
 </style>

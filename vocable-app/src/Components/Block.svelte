@@ -51,23 +51,21 @@
 <!-- end HTML -->
 <style>
   div {
-    width: 45px;
-    height: 45px;
+    width: 75px; /*old 45*/
+    height: 75px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 3px;
     background-color: #434a5d21;
-    max-width: 50px;
-    min-width: 50px;
     border: 1px solid rgb(178, 181, 184);
     margin-left: 2px;
   }
 
   div h3 {
     color: aliceblue;
-    font-size: 35px;
+    font-size: 50px;
     font-weight: 400;
     text-align: center;
     padding-bottom: 5px;
