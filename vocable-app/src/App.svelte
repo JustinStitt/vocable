@@ -24,6 +24,7 @@
   let oskb_states = {};
   let show_settings = false;
   let show_celebration = false;
+  let time_attack = false;
 
   const getNewRandomWord = () => {
     random = Math.floor(Math.random() * words[String(guess_length)].length);
@@ -176,6 +177,10 @@
       newNumberGame(e.detail.guess_length);
     }}
     {guess_length}
+    {time_attack}
+    on:toggle_time_attack={() => {
+      time_attack = !time_attack;
+    }}
   />
 {/if}
 

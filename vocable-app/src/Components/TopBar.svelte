@@ -11,9 +11,7 @@
       on:click={toggleSettings}
       class="settings"
       xmlns="http://www.w3.org/2000/svg"
-      height="24"
       viewBox="0 0 24 24"
-      width="24"
     >
       <path
         fill="aliceblue"
@@ -29,35 +27,33 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     width: 100%;
     min-height: 20px;
     color: aliceblue;
     text-align: center;
     border-bottom: 2px solid grey;
-    margin-bottom: 10px;
     padding-bottom: 7px;
+    padding-top: 7px;
   }
 
   .menu-right {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    width: 50px;
+    width: 60px;
+    overflow: hidden;
   }
 
   .menu-left {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    background-color: blue;
     width: 50px;
   }
 
   .settings {
     justify-self: center;
     padding: 0 10px;
-    margin-right: 10px;
   }
 
   .settings:hover {
@@ -75,10 +71,10 @@
   }
 
   .title {
-    font-size: 40px;
+    font-size: 3.5em;
     font-weight: 500;
     line-height: 100%;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     text-align: center;
   }
 </style>
