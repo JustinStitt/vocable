@@ -3,10 +3,12 @@
 	import { fly, fade } from 'svelte/transition';
 	// import * as file from '../words/5words.json';
 	import * as all_words from '../words/words.json';
+	import {b_click, fanfare} from './sounds';
 
 	import Entry from './Components/Entry.svelte'
 	import validation from './validation.js'
 	import Keyboard from './Components/Keyboard.svelte'
+	import Settings from './Components/Settings.svelte'
 
 	let interactive_debug = 0;
 	let DEBUG = false;
@@ -47,8 +49,9 @@
 			if (state < oskb_states[letter]) continue
 			oskb_states[letter] = state == 0 ? -1 : state;
 		}
-
+		b_click()
 		win = result.win;
+		if(win) fanfare();
 		guess = '';
 		current_guess += 1
 		if (win && current_guess == 1) show_celebration = true;
@@ -87,6 +90,8 @@
 	}
 
 	document.onkeydown = (event) => {
+		b_click();
+
 		let key = event.key.toLowerCase();
 		let keycode = event.keyCode;
 		if (key == 'backspace') {
@@ -148,15 +153,6 @@
 				<Entry guess={o.guess} states={o.states}/>
 				{/each}
 			</div>
-			
-			<!-- <input type="text"
-				maxlength={guess_length} 
-				bind:value={guess} 
-				bind:this={input_box}
-				placeholder='Enter Guess'
-				autofocus
-				oninput="this.value = this.value.toUpperCase()"
-				/> -->
 				
 				{#if win}
 				WINNER! {show_celebration ? ' IN ONE GUESS!' : ''}
@@ -177,12 +173,9 @@
 		
 	</div>
 	{#if show_settings}
-	<div class='difficulty' in:fade out:fade>
-		<h3>Letters: </h3>
-		<button class:in-use={guess_length==4} class='diff-button' on:click={() => newNumberGame(4)}>4</button>
-		<button class:in-use={guess_length==5} class='diff-button' on:click={() => newNumberGame(5)}>5</button>
-		<button class:in-use={guess_length==6} class='diff-button' on:click={() => newNumberGame(6)}>6</button>
-	</div>
+		<Settings 
+		on:change_diff={(e) => {newNumberGame(e.detail.guess_length)}} 
+		{guess_length}/>
 	{/if}
 		
 <style>
@@ -192,13 +185,6 @@
 		flex-direction: row;
 		justify-content: center;
 		height: 100%;
-	}
-
-	.diff-button {
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		border: 1px solid aliceblue;
 	}
 
 	.all {
@@ -268,22 +254,22 @@
 			transform: rotateZ(180deg);
 		}
 	}
-button {
-	color: rgb(194, 228, 255);
-	background-color: rgb(112, 106, 106);
-	border: 1px solid #333;
-	margin-top: 10px;
-	margin-bottom: -2px;
-	width: 100px;
-	align-self: center;
-}
+	button {
+		color: rgb(194, 228, 255);
+		background-color: rgb(112, 106, 106);
+		border: 1px solid #333;
+		margin-top: 10px;
+		margin-bottom: -2px;
+		width: 100px;
+		align-self: center;
+	}
 
-h2 {
-	text-transform: uppercase;
-	font-weight: 500;
-	font-size: 30px;
-	margin: 0;
-}
+	h2 {
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 30px;
+		margin: 0;
+	}
 
 @media (min-width: 640px) {
 	main {
@@ -339,30 +325,8 @@ h2 {
 	}
 }
 
-.difficulty {
-	left: 50%;
-	transform: translateX(-50%);
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
-	position: absolute;
-  top: 15%;
-  text-align: center;
-  width: 20%;
-  background-color: rgba(51, 51, 51, 0.819);
-  border: 1px solid aliceblue;
-  border-radius: 10px;
-  padding-bottom: 10px;
-  line-height: 100%;
-}
-
 .do-blur {
 	filter: blur(4px);
-}
-
-.in-use {
-	background-color: rgb(38, 207, 151);
 }
 
 .celebration {
