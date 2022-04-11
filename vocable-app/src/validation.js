@@ -27,7 +27,7 @@ function validation(guess, correct) {
 
     let states = Array(guess.length).fill(NOT_FOUND)
 
-    for(let i = 0; i < guess.length; ++i) {
+    for (let i = 0; i < guess.length; ++i) {
         let letter = guess[i];
         if (guess[i] == correct[i]) {
             states[i] = CORRECT_SPOT;
@@ -35,7 +35,7 @@ function validation(guess, correct) {
         }
     }
 
-    for(let i = 0; i < guess.length; ++i) {
+    for (let i = 0; i < guess.length; ++i) {
         let letter = guess[i];
         let f_index = correct.search(letter);
         if (f_index == -1) continue;
