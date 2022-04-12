@@ -23,6 +23,9 @@
 	let oskb_states = {};
 	let show_settings = false;
 	let show_celebration = false;
+	let wins = 0;
+	let loss = 0;
+	let games = 1;
 
 	const getNewRandomWord = () => {
 		random = Math.floor(Math.random() * words[String(guess_length)].length)
@@ -54,6 +57,7 @@
 		guess = '';
 		current_guess += 1
 		if (win && current_guess == 1) show_celebration = true;
+		if (!win && current_guess == 6) loss+=1; // you lost the game
 	}
 
 	const initialGuessSetup = () => {
@@ -120,8 +124,9 @@
 		oskb_states = {};
 		win = false;
 		show_celebration = false;
+		games += 1;
 	}
-
+	
 	$: guess = win ? '' : guess
 
 	function newNumberGame(letterNum) {
@@ -161,12 +166,14 @@
 				autofocus
 				oninput="this.value = this.value.toUpperCase()"
 				/> -->
-				
+
 				{#if win}
-				WINNER! {show_celebration ? ' IN ONE GUESS!' : ''}
+				WINNER! {show_celebration ? ' IN ONE GUESS!' : ''} 
 				<button on:click={newGame}>Play again?</button>
 				{/if}
 				<button class='submit' on:click={makeGuess}>Make Guess</button>
+				
+				Wins: {win ? wins+=1 : wins}  Losses: {loss}  Games: {games}
 				<Keyboard on:oskb_click={handleOSKB} on:oskb_backspace={handleOSKB_backspace} states={oskb_states}/>
 				
 			</div> <!-- end game div -->
