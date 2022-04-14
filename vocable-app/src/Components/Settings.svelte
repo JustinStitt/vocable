@@ -25,7 +25,7 @@
 <!-- begin HTML -->
 <div class="settings" transition:slide>
   <div class="difficulty">
-    <h3>Letters:</h3>
+    <h3 style="margin-right: 10px;">Letters: </h3>
     <button
       class="diff-button"
       class:in-use={guess_length == 4}
@@ -90,8 +90,8 @@
     border: 1px solid aliceblue;
     position: absolute;
     top: 15%;
-    width: 20%;
     border-radius: 10px;
+    padding-right: 10px;
     padding-bottom: 10px;
     line-height: 100%;
     left: 50%;
