@@ -196,6 +196,7 @@
   .all {
     max-height: 90%;
     height: 100%;
+    transition: filter 0.2s ease-in-out;
   }
 
   .game {
@@ -214,13 +215,6 @@
     margin-bottom: -2px;
     width: 100px;
     align-self: center;
-  }
-
-  h2 {
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 30px;
-    margin: 0;
   }
 
   @media (min-width: 640px) {
