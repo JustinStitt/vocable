@@ -61,7 +61,7 @@
       oskb_states[letter] = state == 0 ? -1 : state;
     }
     b_click();
-    current_timer = timer;
+    current_timer = timer + 1;
     win = result.win;
     if (win) fanfare();
     guess = "";
@@ -157,7 +157,7 @@
   let timer = -1;
   let current_timer = -1;
   const decrease_timer = () => {
-    if (current_guess < 1) return;
+    if (current_guess < 1 || win) return;
     if (lost || !time_attack) return; // already lost!
     if (current_timer < 1) {
       // out of time -- trigger loss
@@ -193,10 +193,16 @@
         class:lose-shake={lost}
         class:celebration={show_celebration}
         class:loading_background={time_attack}
+        style:--loading_background_color={`rgba(${Math.max(
+          255 - 255 * (current_timer / timer),
+          0
+        )},${128 * (current_timer / timer)},0, .486)`}
       >
         <span
           class="timer-fill-bar"
-          style={`height: ${((timer - current_timer) / timer) * 100}%`}
+          style={`height: ${
+            (Math.max(timer - current_timer, 0) / timer) * 100
+          }%`}
         >
           {#each guesses as o}
             <Entry guess={o.guess} states={o.states} />
@@ -378,6 +384,7 @@
   }
 
   .loading_background {
-    background-color: rgba(0, 128, 0, 0.486);
+    background-color: var(--loading_background_color);
+    transition: background-color 1s linear;
   }
 </style>
