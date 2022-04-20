@@ -6,6 +6,7 @@
 
   export let guess_length = 5;
   export let time_attack;
+  let ctime_attack = false;
   let time_attack_timer = 30;
 
   const change_guess = (gl) => {
@@ -16,16 +17,31 @@
   };
 
   const toggle_time_attack = () => {
-    dispatch("toggle_time_attack", {});
+    b_click();
+    if (time_attack) {
+      ctime_attack = false;
+      time_attack = false;
+      dispatch("toggle_time_attack", {
+        result: false,
+      });
+      return;
+    }
+    ctime_attack = !ctime_attack;
+    console.log(ctime_attack);
   };
 
-  const play_time_attack = () => {};
+  const play_time_attack = () => {
+    dispatch("play_time_attack", {
+      time: time_attack_timer,
+      result: true,
+    });
+  };
 </script>
 
 <!-- begin HTML -->
 <div class="settings" transition:slide>
   <div class="difficulty">
-    <h3 style="margin-right: 10px;">Letters: </h3>
+    <h3 style="margin-right: 10px;">Letters:</h3>
     <button
       class="diff-button"
       class:in-use={guess_length == 4}
@@ -47,12 +63,14 @@
     <button
       class="time-attack-button"
       on:click={toggle_time_attack}
-      style:background-color={time_attack ? "rgb(38, 207, 151)" : "#333"}
+      style:background-color={time_attack || ctime_attack
+        ? "rgb(38, 207, 151)"
+        : "#333"}
     >
-      {time_attack ? "On" : "Off"}
+      {time_attack || ctime_attack ? "On" : "Off"}
     </button>
   </div>
-  {#if time_attack}
+  {#if time_attack || ctime_attack}
     <span class="time-attack-slider" transition:slide={{ duration: 250 }}>
       <input
         type="range"
