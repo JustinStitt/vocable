@@ -1,4 +1,5 @@
 <script>
+  import { fly, fade, slide } from "svelte/transition";
   import { b_click } from "../sounds";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -14,7 +15,7 @@
 </script>
 
 <!-- begin HTML -->
-<div>
+<div transition:fade>
   <h1>You Lost!</h1>
   <h3>Correct Word:</h3>
   <h2>{correct_word}</h2>
