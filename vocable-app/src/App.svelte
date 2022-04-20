@@ -188,6 +188,7 @@
     <div class="game">
       <div
         class="entries"
+        class:lose-shake={lost}
         class:celebration={show_celebration}
         class:loading_background={time_attack}
       >
@@ -322,6 +323,28 @@
     min-height: 120px;
     margin-top: auto;
     border-radius: 10px;
+    /* overflow-y: scroll; */
+  }
+
+  .lose-shake {
+    animation: _lose-shake 1s linear infinite;
+  }
+
+  @keyframes _lose-shake {
+    0%,
+    100% {
+      transform: rotateZ(0deg);
+    }
+
+    25% {
+      transform: rotateZ(3deg);
+    }
+    50% {
+      transform: rotateZ(0deg);
+    }
+    75% {
+      transform: rotateZ(-3deg);
+    }
   }
 
   .do-blur {
