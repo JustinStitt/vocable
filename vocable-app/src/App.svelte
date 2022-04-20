@@ -6,6 +6,8 @@
 
   import Entry from "./Components/Entry.svelte";
   import NewGameModal from "./Components/NewGameModal.svelte";
+  import WinScreen from "./Components/WinScreen.svelte";
+
   import validation from "./validation.js";
   import Keyboard from "./Components/Keyboard.svelte";
   import Settings from "./Components/Settings.svelte";
@@ -200,8 +202,7 @@
       </div>
       <span class="below">
         {#if win}
-          WINNER! {show_celebration ? " IN ONE GUESS!" : ""}
-          <button on:click={newGame}>Play again?</button>
+          <WinScreen num_guess={current_guess} on:new-game={newGame} />
         {/if}
         <Keyboard
           on:oskb_click={handleOSKB}
