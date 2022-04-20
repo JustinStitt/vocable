@@ -69,7 +69,7 @@
     if (win && current_guess == 1) show_celebration = true;
   };
 
-  const initialGuessSetup = () => {
+  const initialGuessSetup = (ng) => {
     guesses = Array(num_guesses);
     for (let i = 0; i < guesses.length; i++) {
       let def = {
@@ -79,6 +79,8 @@
       guesses[i] = def;
     }
   };
+
+  $: initialGuessSetup(num_guesses);
 
   // handle on-screen keyboard
   const handleOSKB = (event) => {
