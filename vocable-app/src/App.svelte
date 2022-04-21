@@ -6,6 +6,8 @@
 
   import Entry from "./Components/Entry.svelte";
   import NewGameModal from "./Components/NewGameModal.svelte";
+  import WinScreen from "./Components/WinScreen.svelte";
+
   import validation from "./validation.js";
   import Keyboard from "./Components/Keyboard.svelte";
   import Settings from "./Components/Settings.svelte";
@@ -59,7 +61,7 @@
       oskb_states[letter] = state == 0 ? -1 : state;
     }
     b_click();
-    current_timer = timer;
+    current_timer = timer + 1;
     win = result.win;
     if (win) fanfare();
     guess = "";
@@ -67,7 +69,7 @@
     if (win && current_guess == 1) show_celebration = true;
   };
 
-  const initialGuessSetup = () => {
+  const initialGuessSetup = (ng) => {
     guesses = Array(num_guesses);
     for (let i = 0; i < guesses.length; i++) {
       let def = {
@@ -77,6 +79,8 @@
       guesses[i] = def;
     }
   };
+
+  $: initialGuessSetup(num_guesses);
 
   // handle on-screen keyboard
   const handleOSKB = (event) => {
@@ -153,7 +157,7 @@
   let timer = -1;
   let current_timer = -1;
   const decrease_timer = () => {
-    if (current_guess < 1) return;
+    if (current_guess < 1 || win) return;
     if (lost || !time_attack) return; // already lost!
     if (current_timer < 1) {
       // out of time -- trigger loss
@@ -186,12 +190,19 @@
     <div class="game">
       <div
         class="entries"
+        class:lose-shake={lost}
         class:celebration={show_celebration}
         class:loading_background={time_attack}
+        style:--loading_background_color={`rgba(${Math.max(
+          255 - 255 * (current_timer / timer),
+          0
+        )},${128 * (current_timer / timer)},0, .486)`}
       >
         <span
           class="timer-fill-bar"
-          style={`height: ${((timer - current_timer) / timer) * 100}%`}
+          style={`height: ${
+            (Math.max(timer - current_timer, 0) / timer) * 100
+          }%`}
         >
           {#each guesses as o}
             <Entry guess={o.guess} states={o.states} />
@@ -200,8 +211,7 @@
       </div>
       <span class="below">
         {#if win}
-          WINNER! {show_celebration ? " IN ONE GUESS!" : ""}
-          <button on:click={newGame}>Play again?</button>
+          <WinScreen num_guess={current_guess} on:new-game={newGame} />
         {/if}
         <Keyboard
           on:oskb_click={handleOSKB}
@@ -321,6 +331,28 @@
     min-height: 120px;
     margin-top: auto;
     border-radius: 10px;
+    /* overflow-y: scroll; */
+  }
+
+  .lose-shake {
+    animation: _lose-shake 1s linear infinite;
+  }
+
+  @keyframes _lose-shake {
+    0%,
+    100% {
+      transform: rotateZ(0deg);
+    }
+
+    25% {
+      transform: rotateZ(3deg);
+    }
+    50% {
+      transform: rotateZ(0deg);
+    }
+    75% {
+      transform: rotateZ(-3deg);
+    }
   }
 
   .do-blur {
@@ -352,6 +384,7 @@
   }
 
   .loading_background {
-    background-color: rgba(0, 128, 0, 0.486);
+    background-color: var(--loading_background_color);
+    transition: background-color 1s linear;
   }
 </style>
