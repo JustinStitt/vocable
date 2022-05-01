@@ -4,6 +4,7 @@
   export let entry_size = 5;
   export let guess = "";
   export let states = [];
+  export let blind_mode = false;
 
   const animation_speed = 6;
 </script>
@@ -15,6 +16,7 @@
       letter={guess[i]}
       state={states[i]}
       anim_delay={0.0 + i / animation_speed}
+      {blind_mode}
     />
   {/each}
 </div>

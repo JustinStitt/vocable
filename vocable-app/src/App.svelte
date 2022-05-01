@@ -3,6 +3,7 @@
   import { fly, fade } from "svelte/transition";
   import * as all_words from "../words/words.json";
   import { b_click, fanfare } from "./sounds";
+  import { clickOutside } from "./click_outside";
 
   import Entry from "./Components/Entry.svelte";
   import NewGameModal from "./Components/NewGameModal.svelte";
@@ -182,6 +183,8 @@
     lost = true;
     guess = "";
   };
+  let settings_modal;
+  let blind_mode;
 </script>
 
 <div class="all" class:do-blur={show_settings || lost}>
@@ -205,7 +208,7 @@
           }%`}
         >
           {#each guesses as o}
-            <Entry guess={o.guess} states={o.states} />
+            <Entry guess={o.guess} states={o.states} {blind_mode} />
           {/each}
         </span>
       </div>
@@ -218,6 +221,7 @@
           on:oskb_backspace={handleOSKB_backspace}
           on:oskb_enter={makeGuess}
           states={oskb_states}
+          {blind_mode}
         />
       </span>
     </div>
@@ -237,21 +241,35 @@
 {/if}
 
 {#if show_settings}
-  <Settings
-    on:change_diff={(e) => {
-      newNumberGame(e.detail.guess_length);
+  <span
+    class="settings-modal"
+    use:clickOutside
+    on:outclick={() => {
+      toggleSettings();
     }}
-    {guess_length}
-    {time_attack}
-    on:toggle_time_attack={(e) => {
-      if (time_attack) newGame();
-      time_attack = e.detail.result;
-    }}
-    on:play_time_attack={(e) => {
-      newGame();
-      play_time_attack(e);
-    }}
-  />
+  >
+    <Settings
+      on:change_diff={(e) => {
+        newNumberGame(e.detail.guess_length);
+      }}
+      {guess_length}
+      {time_attack}
+      {blind_mode}
+      on:toggle_time_attack={(e) => {
+        if (time_attack) newGame();
+        time_attack = e.detail.result;
+      }}
+      on:play_time_attack={(e) => {
+        newGame();
+        play_time_attack(e);
+      }}
+      on:toggle_blind_mode={() => {
+        blind_mode = !blind_mode;
+        newGame();
+      }}
+      bind:this={settings_modal}
+    />
+  </span>
 {/if}
 
 <style>

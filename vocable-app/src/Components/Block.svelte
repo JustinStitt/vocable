@@ -4,6 +4,7 @@
   export let letter = "0";
   export let state = -2;
   export let anim_delay = 0.0;
+  export let blind_mode = false;
 
   let shown_state = -3;
 
@@ -33,15 +34,32 @@
   $: doPop(letter);
 
   $: isChanged(state);
+
+  let color = "#434a5d21"; // idle color
+  $: changeColorOnState(shown_state);
+  const changeColorOnState = (s) => {
+    switch (shown_state) {
+      case 1:
+        color = "rgb(167, 134, 57)";
+        break;
+      case 2:
+        color = "rgb(38, 207, 151)";
+        break;
+    }
+    if (blind_mode) {
+      setTimeout(() => {
+        color = "#434a5d21";
+      }, 5100);
+    }
+  };
 </script>
 
 <!-- start HTML -->
 <div
   class:doflip={changed}
-  class:correct={shown_state == 2}
-  class:incorrect={shown_state == 1}
   class:pop={do_pop}
-  style={`animation-delay: ${do_pop ? 0 : anim_delay}s`}
+  style="animation-delay: {do_pop ? 0 : anim_delay}s; --bground-color: {color};
+  transition: background-color {blind_mode ? '1.5s' : '0'} linear"
 >
   <h3>
     {letter}
@@ -58,7 +76,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 3px;
-    background-color: #434a5d21;
+    background-color: var(--bground-color); /*#434a5d21*/
     border: 1px solid rgb(178, 181, 184);
     margin-left: 2px;
   }
@@ -69,14 +87,6 @@
     font-weight: 400;
     text-align: center;
     padding-bottom: 5px;
-  }
-
-  .correct {
-    background-color: rgb(38, 207, 151);
-  }
-
-  .incorrect {
-    background-color: rgb(167, 134, 57);
   }
 
   .doflip {

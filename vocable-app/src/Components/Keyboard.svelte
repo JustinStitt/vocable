@@ -4,6 +4,7 @@
   import Key from "./Key.svelte";
 
   export let states = {};
+  export let blind_mode = false;
   const rows = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
 
   // handle on-screen keyboard dispatch
@@ -35,6 +36,7 @@
           on:action={handleOSKB}
           key={character.toLowerCase()}
           state={states[character] ? states[character] : 0}
+          {blind_mode}
         />
       {/each}
     </div>
