@@ -30,7 +30,7 @@
         color = "rgb(38, 207, 151)";
         break;
       case -1:
-        color = "rgb(133, 127, 127)"; // not at all
+        color = "rgb(42, 42, 42)"; // not at all
         break;
     }
     if (blind_mode && state != 0) {
