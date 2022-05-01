@@ -6,6 +6,8 @@
   export let key = "a";
   export let state = 0;
   export let width = 1;
+  export let blind_mode = false;
+  let show_blind_mode = false;
   // dispatch to on-screen keyboard dispatcher
   const action = () => {
     b_click();
@@ -13,16 +15,40 @@
       key: key,
     });
   };
+  //let color = "rgb(38, 207, 151);"; // default color
+  let color = "rgb(112, 106, 106)";
+  $: changeColorOnState(state);
+  const changeColorOnState = (s) => {
+    switch (s) {
+      case 0:
+        color = "rgb(112, 106, 106)";
+        break;
+      case 1:
+        color = "rgb(167, 134, 57)"; // incorrect
+        break;
+      case 2:
+        color = "rgb(38, 207, 151)";
+        break;
+      case -1:
+        color = "rgb(133, 127, 127)"; // not at all
+        break;
+    }
+    if (blind_mode && state != 0) {
+      setTimeout(() => {
+        state = 0;
+        color = "rgb(112, 106, 106)";
+      }, 5000);
+    }
+  };
+  $: show_blind_mode = blind_mode && state != 0;
 </script>
 
 <!-- start HTML -->
 <button
   on:click={action}
-  class:correct={state == 2}
-  class:incorrect={state == 1}
-  class:notatall={state == -1}
+  class:notatall={state == -1 && !blind_mode}
   disabled={state == 3}
-  style={`width: ${width * 3.5}em`}
+  style="--bground-color: {color}; width: {width * 3.5}em"
 >
   <h3>
     {key}
@@ -33,7 +59,7 @@
 <style>
   button {
     height: 3.5em; /* old 33 */
-    background-color: rgb(112, 106, 106);
+    background-color: var(--bground-color);
     border: 2px solid #333;
     text-align: center;
     display: flex;
@@ -47,6 +73,7 @@
     -o-transition: 0.5s -o-filter linear;
     transition: 0.5s filter linear, 0.5s -webkit-filter linear,
       background-color 0.5s linear;
+    filter: opacity(1);
   }
 
   button:disabled {
@@ -64,16 +91,7 @@
     padding-bottom: 3px;
   }
 
-  .correct {
-    background-color: rgb(38, 207, 151);
-  }
-
-  .incorrect {
-    background-color: rgb(167, 134, 57);
-  }
-
   .notatall {
-    background-color: rgb(133, 127, 127);
     filter: opacity(0.25);
   }
 

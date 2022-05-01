@@ -8,6 +8,8 @@
   export let time_attack;
   let ctime_attack = false;
   let time_attack_timer = 30;
+  export let blind_mode = false;
+  let cblind_mode = false;
 
   const change_guess = (gl) => {
     b_click();
@@ -27,7 +29,19 @@
       return;
     }
     ctime_attack = !ctime_attack;
-    console.log(ctime_attack);
+  };
+
+  const toggle_blind_mode = () => {
+    b_click();
+    if (1) {
+      cblind_mode = false;
+      blind_mode = false;
+      dispatch("toggle_blind_mode", {
+        result: false,
+      });
+      return;
+    }
+    cblind_mode = !cblind_mode;
   };
 
   const play_time_attack = () => {
@@ -57,6 +71,18 @@
       class:in-use={guess_length == 6}
       on:click={() => change_guess(6)}>6</button
     >
+  </div>
+  <div class="time-attack blind-mode">
+    <h3>Blind Mode</h3>
+    <button
+      class="time-attack-button"
+      on:click={toggle_blind_mode}
+      style:background-color={blind_mode || cblind_mode
+        ? "rgb(38, 207, 151)"
+        : "#333"}
+    >
+      {blind_mode || cblind_mode ? "On" : "Off"}
+    </button>
   </div>
   <div class="time-attack">
     <h3>Time Attack</h3>
