@@ -271,6 +271,7 @@
       }}
       on:change_num_guesses={(e) => {
         num_guesses = e.detail.result;
+        newGame();
       }}
       bind:this={settings_modal}
     />
