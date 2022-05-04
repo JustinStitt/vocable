@@ -12,7 +12,7 @@
 
 1. **Clone** the repository to your local machine
 2. Create a **new branch** with a descriptive name about the task/feature that you're working on. (ex: 'adding-menu')
-3. **Publish** the branch to the repository
+3. **Pulsblish** the branch to the repository
 4. Do the work on that branch by modifying the necessary files.
 5. Go to localhost:8080 to test your feature (work you just did)
 6. **Commit** your changes to your branch (with a descriptive message)

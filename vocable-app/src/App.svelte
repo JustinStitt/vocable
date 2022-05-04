@@ -194,6 +194,7 @@
       <div
         class="entries"
         class:lose-shake={lost}
+        class:win-jump={win}
         class:celebration={show_celebration}
         class:loading_background={time_attack}
         style:--loading_background_color={`rgba(${Math.max(
@@ -350,6 +351,27 @@
     margin-top: auto;
     border-radius: 10px;
     /* overflow-y: scroll; */
+  }
+
+  .win-jump{
+    animation: _win-jump 1s linear infinite;
+  }
+
+  @keyframes _win-jump{
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    25% {
+     
+      transform: translateY(10px);
+    }
+    50%{
+      transform: translateY(20px);
+    }
+    75%{
+      transform: translateY(10px);
+    }
   }
 
   .lose-shake {
