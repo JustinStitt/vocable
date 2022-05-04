@@ -55,6 +55,7 @@
     let result = validation(guess, correct_word);
     guesses[current_guess].states = [...result.letter_states];
     // oskb
+    if (blind_mode) oskb_states = {};
     for (let i = 0; i < result.letter_states.length; ++i) {
       let letter = guess[i].toLowerCase();
       let state = result.letter_states[i];
@@ -353,23 +354,22 @@
     /* overflow-y: scroll; */
   }
 
-  .win-jump{
+  .win-jump {
     animation: _win-jump 1s linear infinite;
   }
 
-  @keyframes _win-jump{
+  @keyframes _win-jump {
     0%,
     100% {
       transform: translateY(0px);
     }
     25% {
-     
       transform: translateY(10px);
     }
-    50%{
+    50% {
       transform: translateY(20px);
     }
-    75%{
+    75% {
       transform: translateY(10px);
     }
   }

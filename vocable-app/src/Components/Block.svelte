@@ -39,6 +39,9 @@
   $: changeColorOnState(shown_state);
   const changeColorOnState = (s) => {
     switch (shown_state) {
+      case -2:
+        color = "#434a5d21";
+        break;
       case 1:
         color = "rgb(167, 134, 57)";
         break;
@@ -46,7 +49,7 @@
         color = "rgb(38, 207, 151)";
         break;
     }
-    if (blind_mode) {
+    if (blind_mode && color != "#434a5d21") {
       setTimeout(() => {
         color = "#434a5d21";
       }, 5100);
