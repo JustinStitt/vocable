@@ -10,6 +10,7 @@
   let time_attack_timer = 30;
   export let blind_mode = false;
   let cblind_mode = false;
+  let num_guesses = 6;
 
   const change_guess = (gl) => {
     b_click();
@@ -17,6 +18,10 @@
       guess_length: gl,
     });
   };
+
+  $: dispatch("change_num_guesses", {
+    result: num_guesses,
+  });
 
   const toggle_time_attack = () => {
     b_click();
@@ -71,6 +76,16 @@
       class:in-use={guess_length == 6}
       on:click={() => change_guess(6)}>6</button
     >
+  </div>
+  <div class="guesses" style="display: flex;' flex-direction:row">
+    <h3 style="margin-right: 10px;">Guesses:</h3>
+    <input bind:value={num_guesses} type="range" min="1" max="16" step="1" />
+    <h3
+      style="font-weight: 700; position: relative; top: -20px; left: {-155 +
+        8.5 * num_guesses}px;"
+    >
+      {num_guesses}
+    </h3>
   </div>
   <div class="time-attack blind-mode">
     <h3>Blind Mode</h3>

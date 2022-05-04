@@ -21,7 +21,7 @@
   let words = all_words.default;
   let random = 0;
   let guess_length = 5;
-  let num_guesses = 6;
+  let num_guesses = 6; // 6 default
   let current_guess = 0;
   let win = false;
   let mount = false;
@@ -269,6 +269,9 @@
         blind_mode = !blind_mode;
         newGame();
       }}
+      on:change_num_guesses={(e) => {
+        num_guesses = e.detail.result;
+      }}
       bind:this={settings_modal}
     />
   </span>
@@ -305,12 +308,6 @@
     margin-bottom: -2px;
     width: 100px;
     align-self: center;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
   }
 
   .debug {
@@ -351,7 +348,8 @@
     min-height: 120px;
     margin-top: auto;
     border-radius: 10px;
-    /* overflow-y: scroll; */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .win-jump {
